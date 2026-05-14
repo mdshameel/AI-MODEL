@@ -1,8 +1,11 @@
-# AskAI — Intelligent Q&A Web App
+# AI-MODEL — Intelligent Q&A Web App
 
 A clean, minimalist web app that answers any question using **Qwen 2.5-7B-Instruct** via the Hugging Face Inference API.
 
 ![AskAI Screenshot](https://img.shields.io/badge/Flask-3.x-blue) ![Python](https://img.shields.io/badge/Python-3.8+-green) ![License](https://img.shields.io/badge/License-MIT-yellow)
+
+## 🚀 Live Demo
+You can try the live version here: [https://ff07b6b01c5c1b30-202-12-82-161.serveousercontent.com](https://ff07b6b01c5c1b30-202-12-82-161.serveousercontent.com)
 
 ## Features
 - 💬 Chat-style interface with typing indicator
@@ -15,8 +18,8 @@ A clean, minimalist web app that answers any question using **Qwen 2.5-7B-Instru
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/YOUR_USERNAME/askai-app.git
-cd askai-app
+git clone https://github.com/mdshameel/AI-MODEL.git
+cd AI-MODEL
 ```
 
 ### 2. Install dependencies
@@ -25,17 +28,12 @@ pip install -r requirements.txt
 ```
 
 ### 3. Set your Hugging Face token
-Get a free token at https://huggingface.co/settings/tokens  
+Get a free token at [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)  
 Enable **"Make calls to Inference Providers"** permission.
 
 ```bash
 cp .env.example .env
 # Edit .env and add your token
-```
-
-Or set it directly:
-```bash
-export HF_TOKEN=hf_your_token_here
 ```
 
 ### 4. Run the app
@@ -45,8 +43,10 @@ python3 app.py
 
 Open http://localhost:5000 in your browser.
 
-## Deploy to Render (Free)
-See [DEPLOY.md](DEPLOY.md) for full deployment instructions.
+## Deployment
+This app is ready for deployment on **Render**, **Railway**, or **Vercel**. 
+- See [DEPLOY.md](DEPLOY.md) for full deployment instructions.
+- Ensure you set the `HF_TOKEN` environment variable on your hosting provider.
 
 ## Tech Stack
 | Layer | Technology |
