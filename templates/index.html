@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AskAI · Intelligent Q&A</title>
+  <meta name="description" content="Ask any question and get a clear AI-powered answer instantly." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+<div class="app-wrapper">
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" fill="white" opacity="0"/>
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5"/>
+          <path d="M8 12l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <span class="brand-name">AskAI</span>
+        <span class="brand-tag">Powered by Qwen 2.5</span>
+      </div>
+    </div>
+
+    <div class="model-chip">
+      <span class="chip-dot"></span>
+      Qwen/Qwen2.5-7B-Instruct
+    </div>
+
+    <button class="icon-btn" id="clearChatBtn" title="Clear conversation" aria-label="Clear conversation">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6"/>
+        <path d="M19 6l-1 14H6L5 6"/>
+        <path d="M9 6V4h6v2"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1 class="hero-title">Ask <span class="accent">Anything</span></h1>
+    <p class="hero-sub">Get instant, intelligent answers powered by Qwen 2.5 — a state-of-the-art language model.</p>
+  </section>
+
+  <!-- Chat -->
+  <div class="chat-wrap">
+    <div class="chat-container" id="chatContainer" aria-live="polite" aria-label="Conversation">
+      <div class="chat-empty" id="chatEmpty">
+        <div class="empty-icon">💬</div>
+        <p class="empty-title">Ready to answer</p>
+        <p class="empty-text">Type a question below to get started.</p>
+        <div class="suggestions">
+          <button class="suggestion-chip" data-text="What is the capital of France?">What is the capital of France?</button>
+          <button class="suggestion-chip" data-text="Explain machine learning in simple terms.">Explain machine learning</button>
+          <button class="suggestion-chip" data-text="What are the benefits of regular exercise?">Benefits of exercise</button>
+          <button class="suggestion-chip" data-text="How does the internet work?">How does the internet work?</button>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatMessages" role="log"></div>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="input-section">
+    <div class="input-wrapper" id="inputWrapper">
+      <textarea
+        id="questionInput"
+        class="question-input"
+        placeholder="Ask anything…"
+        rows="1"
+        autocomplete="off"
+        aria-label="Your question"
+      ></textarea>
+      <button class="send-btn" id="sendBtn" title="Send (Enter)" aria-label="Send">
+        <svg class="send-icon" viewBox="0 0 24 24" fill="none">
+          <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22 2L15 22 11 13 2 9l20-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="loading-spinner"></div>
+      </button>
+    </div>
+    <p class="input-hint"><kbd>Enter</kbd> to send &nbsp;·&nbsp; <kbd>Shift+Enter</kbd> for new line</p>
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <span class="footer-model"><span class="footer-dot"></span> Qwen/Qwen2.5-7B-Instruct</span>
+    <span class="footer-sep">·</span>
+    <span>via Featherless AI on Hugging Face</span>
+  </footer>
+
+</div>
+
+<!-- Toast -->
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
