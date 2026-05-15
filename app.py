@@ -57,6 +57,8 @@ def ask():
 
     except requests.exceptions.Timeout:
         return jsonify({"answer": None, "error": "Request timed out. Please try again."})
+    except requests.exceptions.ConnectionError:
+        return jsonify({"answer": None, "error": "You are offline. Please check your internet connection."})
     except requests.exceptions.HTTPError as e:
         status = e.response.status_code
         if status == 401:

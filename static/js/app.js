@@ -1,5 +1,14 @@
 /* ── AskAI · app.js (text-only) ── */
 
+// ── Service Worker Registration ──────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/static/sw.js').catch(err => {
+      console.warn('Service Worker registration failed:', err);
+    });
+  });
+}
+
 const chatContainer = document.getElementById('chatContainer');
 const chatMessages  = document.getElementById('chatMessages');
 const chatEmpty     = document.getElementById('chatEmpty');
@@ -89,8 +98,13 @@ async function submitQuestion() {
     }
   } catch (err) {
     removeTyping(typingId);
-    appendAIBubble('Network error: ' + err.message, true);
-    showToast('Network error. Check your connection.', 'error');
+    if (!navigator.onLine || err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
+      appendAIBubble('You appear to be offline. Please check your internet connection.', true);
+      showToast('You are offline.', 'error');
+    } else {
+      appendAIBubble('Network error: ' + err.message, true);
+      showToast('Network error. Check your connection.', 'error');
+    }
   } finally {
     setLoading(false);
     questionInput.focus();
