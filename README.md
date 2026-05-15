@@ -10,6 +10,8 @@ You can try the live version here: [https://ai-model-whoh.onrender.com](https://
 ## Features
 - 💬 Chat-style interface with typing indicator
 - ⚡ Powered by Qwen/Qwen2.5-7B-Instruct (via Featherless AI on Hugging Face)
+- 🚀 **Real-time Streaming:** Answers type out live as they are generated (Server-Sent Events)
+- 📶 **Offline Resilience:** PWA support with graceful network error handling
 - 🎨 Clean, professional UI — light theme with ink-blue accents
 - 📱 Fully responsive
 - 🔁 Suggestion chips to get started quickly
