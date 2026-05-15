@@ -69,32 +69,50 @@ async function submitQuestion() {
     formData.append('question', question);
 
     const res  = await fetch('/ask', { method: 'POST', body: formData });
-
-    // Read as text first to safely detect empty / non-JSON responses
-    const text = await res.text();
     removeTyping(typingId);
 
-    if (!text || text.trim() === '') {
-      appendAIBubble('No response from server. Please try again.', true);
-      showToast('Empty response from server.', 'error');
+    if (!res.ok) {
+      appendAIBubble('Server error. Please try again.', true);
+      showToast('Server returned an error.', 'error');
       return;
     }
 
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch (_) {
-      // Server returned HTML or something non-JSON (e.g. Flask debug error page)
-      appendAIBubble('Server error. Please try again in a moment.', true);
-      showToast('Server returned an unexpected response.', 'error');
-      return;
-    }
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder('utf-8');
+    let aiMsgId = appendAIBubble(''); 
+    let fullAnswer = '';
+    let buffer = '';
 
-    if (data.error) {
-      appendAIBubble(data.error, true);
-      showToast(data.error, 'error');
-    } else {
-      appendAIBubble(data.answer);
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      
+      buffer += decoder.decode(value, { stream: true });
+      
+      let newlineIdx;
+      while ((newlineIdx = buffer.indexOf('\n')) >= 0) {
+        const line = buffer.slice(0, newlineIdx).trim();
+        buffer = buffer.slice(newlineIdx + 1);
+        
+        if (line.startsWith('data: ')) {
+          const dataStr = line.slice(6).trim();
+          if (dataStr === '[DONE]') continue;
+          try {
+            const data = JSON.parse(dataStr);
+            if (data.error) {
+              updateAIBubble(aiMsgId, data.error, true);
+              showToast(data.error, 'error');
+              return;
+            }
+            if (data.choices && data.choices[0].delta && data.choices[0].delta.content) {
+              fullAnswer += data.choices[0].delta.content;
+              updateAIBubble(aiMsgId, fullAnswer);
+            }
+          } catch (e) {
+            console.warn("Error parsing JSON chunk:", dataStr);
+          }
+        }
+      }
     }
   } catch (err) {
     removeTyping(typingId);
@@ -127,13 +145,25 @@ function appendUserBubble(text) {
 
 function appendAIBubble(text, isError = false) {
   hideChatEmpty();
+  const id = 'ai-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
   const msg = document.createElement('div');
   msg.className = 'msg msg-ai';
+  msg.id = id;
   msg.innerHTML = `
     <span class="msg-label">AskAI</span>
     <div class="bubble${isError ? ' error' : ''}">${formatAnswer(text)}</div>
   `;
   chatMessages.appendChild(msg);
+  scrollToBottom();
+  return id;
+}
+
+function updateAIBubble(id, text, isError = false) {
+  const msg = document.getElementById(id);
+  if (!msg) return;
+  const bubble = msg.querySelector('.bubble');
+  if (isError) bubble.classList.add('error');
+  bubble.innerHTML = formatAnswer(text);
   scrollToBottom();
 }
 
