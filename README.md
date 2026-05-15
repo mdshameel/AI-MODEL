@@ -5,7 +5,7 @@ A clean, minimalist web app that answers any question using **Qwen 2.5-7B-Instru
 ![AskAI Screenshot](https://img.shields.io/badge/Flask-3.x-blue) ![Python](https://img.shields.io/badge/Python-3.8+-green) ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ## 🚀 Live Demo
-You can try the live version here: [https://ff07b6b01c5c1b30-202-12-82-161.serveousercontent.com](https://ff07b6b01c5c1b30-202-12-82-161.serveousercontent.com)
+You can try the live version here: [https://ai-model-whoh.onrender.com](https://ai-model-whoh.onrender.com)
 
 ## Features
 - 💬 Chat-style interface with typing indicator
